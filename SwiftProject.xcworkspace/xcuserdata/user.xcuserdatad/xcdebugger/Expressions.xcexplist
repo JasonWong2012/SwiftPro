@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "NetTool.(get(String, backCall : (dic : [String : AnyObject]?, error : NSError?) -&gt; ()) -&gt; ()).(closure #1):NetTool.swift">
+      </ContextState>
+      <ContextState
+         contextName = "LoginVC.(handleLogin() -&gt; ()).(closure #1):LoginVC.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
