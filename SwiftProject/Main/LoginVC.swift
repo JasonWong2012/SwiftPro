@@ -23,9 +23,26 @@ class LoginVC: BaseTableVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+       setDetail()
+}
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBarHidden = true
+    }
+ 
+}
+
+
+//MARK:设置细节
+extension LoginVC{
+    
+    func setDetail(){
         
         //1.不能滚动
-      tableView.scrollEnabled = false
+        tableView.scrollEnabled = false
         
         //2.bgView
         let imv = UIImageView()
@@ -37,22 +54,21 @@ class LoginVC: BaseTableVC {
         phoneView.becomeAngel()
         pwdView.becomeAngel()
         loginBtn.becomeAngel()
-
+        
         //4.触摸事件
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapedTableView))
         tableView.addGestureRecognizer(tap)
-
-}
-    
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
         
-        navigationController?.navigationBarHidden = true
+        //5.取出上一次数据
+        phoneTF.text = K_Phone
+        pwdTF.text = K_Pwd
     }
+}
+
+//MARK:事件
+extension LoginVC{
     
-    
-    //MARK : 注册
+    //MARK:注册
     @IBAction func registAction(sender: AnyObject) {
         
         let registVC = Define.Storyboard_InitVC("RegistVC")
@@ -60,48 +76,65 @@ class LoginVC: BaseTableVC {
         
     }
     
-    //MARK : 忘记密码
+    //MARK:忘记密码
     @IBAction func forgetPwdAction(sender: AnyObject) {
         
         let forgetPwdVC = Define.Storyboard_InitVC("ForgetPwdVC")
         navigationController?.pushViewController(forgetPwdVC, animated: true)
     }
     
-    //MARK : 登录
+    //MARK:登录
     @IBAction func loginBtnAction(sender: AnyObject) {
-          handleLogin()
-      }
+        handleLogin()
+    }
     
-    //Mark : 摇一摇
+    //Mark:摇一摇
     override func motionBegan(motion: UIEventSubtype, withEvent event: UIEvent?) {
-       handleLogin()
+        handleLogin()
+    }
+    
+    
+    
+    //MARK:退键盘
+    func tapedTableView(){
+        
+        view.endEditing(true)
         
     }
     
-    //MARK : 处理登录
+}
+
+
+//MARK:处理登录
+extension LoginVC{
+  
     func handleLogin(){
         
+        //退下键盘
+        view.endEditing(true)
+        
+        //提示
         if phoneTF.text?.characters.count == 0 || pwdTF.text?.characters.count==0{
             
-            TipTool.shareTipTool.showErrorTip("请输入完整账号和密码")
+            TipTool.showError("请输入完整账号和密码")
             return
         }
         
         if phoneTF.text?.characters.count != 11{
             
-            TipTool.shareTipTool.showErrorTip("请输入正确的手机号")
+            TipTool.showError("请输入正确的手机号")
             return
         }
         
-       let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.labelText = "登录中..."
- 
+        //登录提示
+        TipTool.showHud(self.view, text: "登录中...")
+        //登录接口
         NetTool.shareNetTool.login(phoneTF.text!, passWord: (pwdTF.text?.md5())!) { (dic) in
-           
-            MBProgressHUD.hideHUDForView(self.view, animated: true)
+            
+            TipTool.hidHud(self.view)
             
             if Define.reqSuccess(dic!) == true{
-               
+                
                 //1.把数据存入沙盒
                 let path = dic!["value"]
                 let arr = path?.componentsSeparatedByString(",")
@@ -109,25 +142,22 @@ class LoginVC: BaseTableVC {
                 K_Udf.setObject(arr!.last, forKey: "phone")
                 K_Udf.setObject(self.pwdTF.text, forKey: "pwd")
                 K_Udf.synchronize()
-
+        
                 //2.主界面
                 self.view.window?.rootViewController = Define.Storyboard_InitVC("TabbarVC")
                 
-            }else if Define.reqAbnormal(dic!) == true {
-                TipTool.shareTipTool.showErrorTip(String(dic!["value"]))
+                //3.音效
+                GlobalTool.playSoundWithFileName("loginSucess.wav")
+                
+            }else{
+                
+                 let tip : String =   dic!["value"] as! String
+                 TipTool.showError(tip)
+                
+                 GlobalTool.playSoundWithFileName("error.wav")
             }
             
         }
     }
     
-   //MARK : 退键盘
-    func tapedTableView(){
-        
-      view.endEditing(true)
-
-    }
-    
- 
 }
-
-

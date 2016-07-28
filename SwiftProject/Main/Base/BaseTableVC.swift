@@ -10,11 +10,11 @@ import UIKit
 
 class BaseTableVC: UITableViewController {
 
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.tableHeaderView = UIView(frame: CGRectMake(0, 0, 0, 0))
+        tableView.tableHeaderView = UIView(frame: CGRectMake(0, 0, 0, CGFloat.min))
         view.backgroundColor = K_BgViewColor
     }
     

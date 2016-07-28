@@ -17,4 +17,28 @@ class BaseMod: NSObject {
     4.后台给的是NSNUll类型，判断后赋予空值
     */
     
+    override func setValue(value: AnyObject?, forKey key: String) {
+        
+        if value == nil {     //空值类型情况
+          
+            self.setValue("", forKey: key)
+            
+        }else if (value is NSNumber) { //NSNumber类型情况：
+            
+             self.setValue(String(value!), forKey: key)
+            
+        }else{ //String类型情况：
+            
+         super.setValue(value!, forKey: key)
+        }
+        
+       
+    }
+
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+//        super.setValue(value, forUndefinedKey: key)
+    }
+    
 }

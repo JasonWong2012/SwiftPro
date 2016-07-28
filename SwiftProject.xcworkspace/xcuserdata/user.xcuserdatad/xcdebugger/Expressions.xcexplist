@@ -3,6 +3,14 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "HomeTopView.(getHomePicture() -&gt; ()).(closure #1):HomeTopView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "(AnyObject)[2].value">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "NetTool.(get(String, backCall : (dic : [String : AnyObject]?, error : NSError?) -&gt; ()) -&gt; ()).(closure #1):NetTool.swift">
       </ContextState>
       <ContextState

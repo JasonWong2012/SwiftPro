@@ -15,8 +15,7 @@ import UIKit
 ///全局统一颜色：
 let K_RedColor = Define.RGBColor(247, G: 51, B: 70, A: 1)
 let K_BgViewColor = Define.RGBColor(244, G: 244, B: 244, A: 1)
-//let K_NavBarColor = Define.RGBColor(247, G: 247, B: 247, A: 1)
-let K_NavBarColor = UIColor.redColor()
+let K_NavBarColor = Define.RGBColor(247, G: 247, B: 247, A: 1)
 let K_GrayColor = Define.RGBColor(85, G:85, B:85, A:1)
 let K_BlueColor  = Define.RGBColor(0, G:122, B:255, A:1)
 let K_YellowColor  = Define.RGBColor(133, G:87, B:24, A:1)
@@ -31,9 +30,11 @@ let K_Noti_Center = NSNotificationCenter.defaultCenter()
 
 //用户数据
 let K_Udf = NSUserDefaults.standardUserDefaults()
-let K_Uid = K_Udf.objectForKey("Uid")
-let K_Phone = K_Udf.objectForKey("Phone")
-let K_Pwd = K_Udf.objectForKey("pwd")
+let K_Uid = (K_Udf.objectForKey("uid") == nil) ? "" : (K_Udf.objectForKey("uid") as! String)
+let K_Phone = (K_Udf.objectForKey("phone") == nil) ? "" : (K_Udf.objectForKey("phone") as! String)
+let K_Pwd = (K_Udf.objectForKey("pwd") == nil) ? "" : (K_Udf.objectForKey("pwd") as! String)
+let K_Icon = K_Udf.objectForKey("icon")
+
 
 
 
@@ -56,6 +57,8 @@ let K_Screen_H = UIScreen.mainScreen().bounds.size.height
 
 //导航栏最大Y值
 let K_NavBar_H : CGFloat = (K_IOS7 ? 64 : 44)
+//底部栏高度
+let K_BottomBar_H : CGFloat = 44
 
 //字体
 let K_Font10 = UIFont.systemFontOfSize(10)

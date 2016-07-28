@@ -20,6 +20,8 @@ class RegistVC: BaseTableVC{
     @IBOutlet weak var codeBtn: UIButton!
     
     @IBOutlet weak var registBtn: UIButton!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,30 +41,42 @@ class RegistVC: BaseTableVC{
         
     }
     
+
+}
+
+
+//MARK:事件
+extension RegistVC{
+    
     
     //MARK : 获取验证码
     @IBAction func codeBtnAction(sender: AnyObject) {
         
-          codeBtn.selected  = !codeBtn.selected
+        codeBtn.selected  = !codeBtn.selected
     }
     
     //MRRK : 注册
     @IBAction func registAction(sender: AnyObject) {
         
+        //退键盘
+        view.endEditing(true)
+        
+        //提示
         if phoneTF.text?.characters.count == 0 || pwdTF.text?.characters.count == 0{
             
-            TipTool.shareTipTool.showErrorTip("请输入完整手机号和密码")
+            TipTool.showError("请输入完整手机号和密码")
             return
         }
         
-        if phoneTF.text?.characters.count != 0 {
-            TipTool.shareTipTool.showErrorTip("请输入正确手机号")
+        if phoneTF.text?.characters.count != 11 {
+            TipTool.showError("请输入正确手机号")
             return
         }
         
-         view.window?.rootViewController = Define.Storyboard_InitVC("TabbarVC")
+        //主界面
+        view.window?.rootViewController = Define.Storyboard_InitVC("TabbarVC")
     }
-
+    
     //MARK : 退键盘
     func tapedTableView(){
         

@@ -12,3 +12,8 @@ class AlertTool: NSObject {
 
     static let shareAlertTool = AlertTool()
 }
+
+extension AlertTool{
+    
+        
+}

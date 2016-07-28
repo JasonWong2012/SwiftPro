@@ -7,36 +7,98 @@
 //
 
 import UIKit
-//import AFNetworking
+
 import Alamofire
 
 class NetTool: NSObject {
     
-    //单例对象
+    ///单例对象
     static let shareNetTool: NetTool = NetTool ()
-    
-//   let mgr = AFHTTPSessionManager ()
- 
 
+    
+}
+
+
+extension NetTool{
+    
+    //1.MARK:登录
     func login(loginName:String,passWord:String,backCall: (dic:[String:AnyObject]?) ->Void){
         
-     
-       let path = K_Net_1 + "action=login&loginName=\(loginName)&passWord=\(passWord)"
         
-       get(path) { (dic, error) in
+        let path = K_Net_1 + "action=login&loginName=\(loginName)&passWord=\(passWord)"
+        
+        get(path) { (dic, error) in
             
             backCall(dic: dic)
-        
+            
         }
         
     }
     
-   
     
-    //MARK: 最底层的get请求
+    //2.MARK:查询老师个人资料：
+    /**
+     0.查详细信息
+     1.查教育/培训信息
+     2.查工作信息
+     3.查手机号码、email
+     4.获取用户登录名和用户真实姓名,
+     5.查余额Balance
+     7.查看用户被浏览量
+     9.查详细信息+教师荣誉证
+     17.我的导航
+     18个人资料
+     191信息是否完善
+     192基本信息
+     193教学特点
+     194教育经历
+     195工作经历
+     20  钱包余额 + 红包个数
+     **/
+    func getUserDetailWithType(type:String,backCall: (dic:[String:AnyObject]?) ->Void) {
+        
+        let path = K_Net_1 + "action=GetUserDetail&teacherID=\(K_Uid)&type=\(type)"
+        
+        get(path) { (dic, error) in
+            
+            backCall(dic: dic)
+            
+        }
+    }
+    
+     //3.MARK:获取首页滚动图片
+    func getHomePictures(backCall: (dic:[String:AnyObject]?) ->Void) {
+        
+        let path = K_Net_1 + "action=GetIndexPic"
+        
+        get(path) { (dic, error) in
+            
+            backCall(dic: dic)
+        }
+    }
+    
+      //3.MARK:获取首页新闻
+    func getNewsData(pageIndex:String,pageSize:String,backCall: (dic:[String:AnyObject]?) ->Void) {
+        
+        let path = K_Net_1 + "action=GetNews&newstype=1&pageIndex=\(pageIndex)&pageSize=\(pageSize)"
+        
+        get(path) { (dic, error) in
+            
+            backCall(dic: dic)
+            
+        }
+    }
+    
+}
+
+
+extension NetTool{
+    
+    //MARK:最底层的get请求
     func get(path:String , backCall: (dic : [String : AnyObject]?,error : NSError?) ->()){
         
         
+        //1.拼串+md5
         let currentDate = NSDate()
         
         let dateFormatter = NSDateFormatter()
@@ -45,58 +107,26 @@ class NetTool: NSObject {
         
         let str = dateStr.stringByAppendingString("QceduXueF@%&*(!~)^$?.").md5().uppercaseString
         let md5Url = path + "&VerSafe=" + str
-       let securityStr = md5Url.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+        let securityStr = md5Url.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
         
- 
-        
-//        mgr.GET(securityStr!, parameters: nil, success: { (_, JSON) in
-//            
-//            if (JSON != nil) {
-//                
-//                let obj = JSON as! [String : AnyObject]
-//                backCall(dic: obj, error: nil)
-//            }
-//            
-//            }) { (_, error) in
-//                
-//              backCall(dic: nil, error: error)
-//        }
-        
-        // 2.发送请求
-//        request(.GET, securityStr!, parameters:nil).responseJSON { (response) -> Void in
-//            
-//            // 1.判断是否请求成功
-//            if response.result.isFailure
-//            {
-//                backCall(dic: nil,error:response.result.error )
-//                return
-//            }
-//            
-//            let dic = response.result.value as? [String: AnyObject]
-//            
-//            print(response)
-//            
-//            // 2.没有错
-//            backCall(dic: dic, error: nil)
-//            
-//        }
-    
+        //2.请求
         Alamofire.request(.GET, securityStr!, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON { (response) in
-        
             
-                    if response.result.isFailure
-                        {
-                            backCall(dic: nil,error:response.result.error )
-                            return
-                        }
             
-                        let dic = response.result.value as? [String: AnyObject]
+            if response.result.isFailure
+            {
+//                backCall(dic: nil,error:response.result.error )
+                
+              TipTool.showError("网络繁忙..")
+                return
+            }
             
-                        // 2.没有错
-                        backCall(dic: dic, error: nil)
-        
+            let dic = response.result.value as? [String: AnyObject]
+            
+            // 2.没有错
+            backCall(dic: dic, error: nil)
+            
         }
     }
+  
 }
-
-

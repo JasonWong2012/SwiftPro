@@ -1,0 +1,32 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "0C745B557D9B9CE84B6FCAF46195E6FD53087F01",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "8d094219-dabe-b644-a031-be21981ae6a9++1357" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "0C745B557D9B9CE84B6FCAF46195E6FD53087F01" : 0,
+    "8d094219-dabe-b644-a031-be21981ae6a9++1357" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "49610978-FF7B-422D-9DEA-5BAF43F56109",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "0C745B557D9B9CE84B6FCAF46195E6FD53087F01" : "SwiftProject\/",
+    "8d094219-dabe-b644-a031-be21981ae6a9++1357" : "%E5%90%AF%E7%A8%8B%E6%99%BA%E8%BF%9C\/XFWT\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "SwiftProject",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "SwiftProject.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/JasonWong2012\/SwiftPro.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0C745B557D9B9CE84B6FCAF46195E6FD53087F01"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/192.168.1.130\/svn\/IOS_APP",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8d094219-dabe-b644-a031-be21981ae6a9++1357"
+    }
+  ]
+}
