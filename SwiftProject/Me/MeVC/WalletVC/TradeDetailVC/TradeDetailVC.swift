@@ -11,6 +11,7 @@ import UIKit
 
 class TradeDetailVC: BaseVC,UITableViewDataSource,UITableViewDelegate{
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,11 +46,19 @@ extension TradeDetailVC{
         if cell == nil {
             cell = TradeDetailCell(style: UITableViewCellStyle.Default, reuseIdentifier: "TradeDetailCell")
         }
-        
+      
         return cell!
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 70
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
+        return 1
     }
 }

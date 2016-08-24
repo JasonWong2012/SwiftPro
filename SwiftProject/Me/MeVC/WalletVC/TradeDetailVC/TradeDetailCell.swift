@@ -9,12 +9,14 @@
 import UIKit
 
 class TradeDetailCell: UITableViewCell {
+ 
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
     }
 
+   
  
 
 }

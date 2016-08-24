@@ -10,8 +10,7 @@ import UIKit
 
 class HomeTopView: UIScrollView {
     
-    let Kcount : CGFloat = 4
-    
+     let Kcount : CGFloat = 4
      lazy var picArr = [UIImageView]()
     
     
@@ -57,10 +56,12 @@ extension HomeTopView{
         
         TipTool.hidHud(K_Window!)
         
-        if Define.reqSuccess(dic!) == true {
+        if Define.reqSuccess(dic) == true {
             
-            if let result = dic!["value"] as? NSArray{
-                
+            guard let result = dic!["value"] as? NSArray else{
+             return
+            }
+            
                 result.enumerateObjectsUsingBlock({ (obj, i,isStop
                     ) in
                     
@@ -72,9 +73,7 @@ extension HomeTopView{
                     
                 })
             }
-        }
-        
-        
+         
         }
     }
 }

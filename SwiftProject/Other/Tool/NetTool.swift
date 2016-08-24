@@ -67,7 +67,7 @@ extension NetTool{
     }
     
      //3.MARK:获取首页滚动图片
-    func getHomePictures(backCall: (dic:[String:AnyObject]?) ->Void) {
+    func getHomePictures(backCall: (dic:[String:AnyObject]?) -> Void) {
         
         let path = K_Net_1 + "action=GetIndexPic"
         
@@ -88,7 +88,6 @@ extension NetTool{
             
         }
     }
-    
 }
 
 
@@ -96,7 +95,6 @@ extension NetTool{
     
     //MARK:最底层的get请求
     func get(path:String , backCall: (dic : [String : AnyObject]?,error : NSError?) ->()){
-        
         
         //1.拼串+md5
         let currentDate = NSDate()

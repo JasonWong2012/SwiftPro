@@ -24,7 +24,10 @@ class LoginVC: BaseTableVC {
         super.viewDidLoad()
         
        setDetail()
+ 
 }
+    
+ 
     
     
     override func viewWillAppear(animated: Bool) {
@@ -128,20 +131,26 @@ extension LoginVC{
         
         //登录提示
         TipTool.showHud(self.view, text: "登录中...")
+        
+        
         //登录接口
         NetTool.shareNetTool.login(phoneTF.text!, passWord: (pwdTF.text?.md5())!) { (dic) in
             
             TipTool.hidHud(self.view)
             
-            if Define.reqSuccess(dic!) == true{
+            if Define.reqSuccess(dic) == true{
                 
                 //1.把数据存入沙盒
                 let path = dic!["value"]
-                let arr = path?.componentsSeparatedByString(",")
-                K_Udf.setObject(arr![0], forKey: "uid")
-                K_Udf.setObject(arr!.last, forKey: "phone")
-                K_Udf.setObject(self.pwdTF.text, forKey: "pwd")
-                K_Udf.synchronize()
+                if let arr = path?.componentsSeparatedByString(","){
+                    
+                    K_Udf.setObject(arr[0], forKey: "uid")
+                    K_Udf.setObject(arr.last, forKey: "phone")
+                    K_Udf.setObject(self.pwdTF.text, forKey: "pwd")
+                    K_Udf.synchronize()
+                }
+                
+               
         
                 //2.主界面
                 self.view.window?.rootViewController = Define.Storyboard_InitVC("TabbarVC")
@@ -151,10 +160,11 @@ extension LoginVC{
                 
             }else{
                 
-                 let tip : String =   dic!["value"] as! String
-                 TipTool.showError(tip)
                 
-                 GlobalTool.playSoundWithFileName("error.wav")
+                if let tip  = dic!["value"] as? String{
+                   TipTool.showError(tip)
+                }
+                GlobalTool.playSoundWithFileName("error.wav")
             }
             
         }

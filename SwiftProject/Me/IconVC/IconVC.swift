@@ -8,11 +8,16 @@
 
 import UIKit
 
+
+
 class IconVC: BaseTableVC,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIActionSheetDelegate{
 
+     var icon = UIImage ()
     
     @IBOutlet weak var iconImv: UIImageView!
     
+    @IBOutlet weak var keepBtn: UIButton!
+  
     
     lazy var actionSheet : UIActionSheet = {
         
@@ -34,16 +39,8 @@ class IconVC: BaseTableVC,UINavigationControllerDelegate,UIImagePickerController
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let docPath =  NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last!
-        
-        print("沙盒路径：\(docPath)")
-        
-        if (K_Icon != nil) {
-          let imageData = K_Icon as? NSData
-          iconImv.image = UIImage(data: imageData!)
-        }
-       
+  
+            iconImv.image = icon
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -111,9 +108,12 @@ extension IconVC{
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         
         //压缩存入沙盒
-        let imageData = UIImageJPEGRepresentation(image, 0.01)
-        K_Udf.setObject(imageData, forKey: "icon")
-        K_Udf.synchronize()
+//        let imageData = UIImageJPEGRepresentation(image, 0.01)
+//        K_Udf.setObject(imageData, forKey: "icon")
+//        K_Udf.synchronize()
+        keepBtn.enabled = true
+        keepBtn.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
+        K_NotiCenter.postNotificationName("changeIconNoti", object: image)
         
         //显示图片
         iconImv.image = image

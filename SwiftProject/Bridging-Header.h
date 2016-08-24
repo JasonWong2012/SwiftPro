@@ -14,3 +14,5 @@
 #import <AVFoundation/AVFoundation.h>
 #import "FMDB.h"
 #import "UIImageView+WebCache.h"
+#import"RACSignal.h"
+#import"RACCommand.h"

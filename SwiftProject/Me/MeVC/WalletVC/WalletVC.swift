@@ -9,12 +9,15 @@
 import UIKit
 
 class WalletVC: BaseTableVC {
+   
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
 
     }
+    
+   
 }
 
 

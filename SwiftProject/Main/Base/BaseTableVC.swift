@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BaseTableVC: UITableViewController {
+class BaseTableVC: UITableViewController{
 
 
     override func viewDidLoad() {

@@ -16,6 +16,8 @@ class BaseNav: UINavigationController {
         super.viewDidLoad()
         
         navigationBar.backgroundColor = K_NavBarColor
+        UINavigationBar.appearance().tintColor = K_RedColor
+        UITabBar.appearance().tintColor = K_RedColor
         
     }
 

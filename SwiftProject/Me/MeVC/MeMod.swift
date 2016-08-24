@@ -31,6 +31,10 @@ class MeMod: BaseMod {
    var detailsOK: String = "" // "yes",
    var luckyLink: String = "" // "http: String = "" //m.xuef.com/welfare.html"
    var  IsApprovalOK: String = ""  //审核通过
-   
-
+    
+    
+    init(dic : [String : AnyObject]) {
+      super.init()
+        setValuesForKeysWithDictionary(dic)
+    }
 }

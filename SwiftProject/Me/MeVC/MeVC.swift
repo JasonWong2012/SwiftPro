@@ -32,8 +32,13 @@ class MeVC: BaseTableVC {
         iconBtn.becomeRound()
         addNav()
         getData()
-        
-        
+        action()
+        noti()
+    }
+    
+    
+    //MARK:事件
+    func action(){
         
         for littleView in categoryView.subviews{
             
@@ -42,10 +47,30 @@ class MeVC: BaseTableVC {
         }
     }
     
+    //通知
+    func noti(){
+      K_NotiCenter.addObserver(self, selector: #selector(changeIcon(_:)), name: "changeIconNoti", object: nil)
+    }
+    
+    func changeIcon(noti:NSNotification){
+        
+        if ((noti.object as? UIImage) != nil) {
+             iconBtn.setImage((noti.object as! UIImage), forState: UIControlState.Normal)
+        }
+    }
+ 
+    
     //头像事件
     @IBAction func iconBtnAction(sender: UIButton) {
         
-       let iconVC = Define.Storyboard_InitVC("IconVC")
+       let iconVC = Define.Storyboard_InitVC("IconVC") as! IconVC
+        
+        if iconBtn.imageView!.image != nil {
+            iconVC.icon = iconBtn.imageView!.image!
+        }else{
+            print(333)
+        }
+        
         navigationController?.pushViewController(iconVC, animated: true)
     }
     
@@ -57,12 +82,12 @@ class MeVC: BaseTableVC {
             
         case 1: //钱包
             
-            let walletVC = Define.Storyboard_InitVC("WalletVC")
+            let walletVC = Define.Storyboard_InitVC("WalletVC") as! WalletVC
             navigationController?.pushViewController(walletVC, animated: true)
             
         case 2: //订单
             
-            let orderVC = Define.Storyboard_InitVC("OrderVC")
+            let orderVC = Define.Storyboard_InitVC("OrderVC") as! OrderVC
             navigationController?.pushViewController(orderVC, animated: true)
             
         case 3: //帮助
@@ -70,8 +95,20 @@ class MeVC: BaseTableVC {
             let helpVC = HelpVC ()
             navigationController?.pushViewController(helpVC, animated: true)
             
-
+        case 4: //地址
             
+            let addressVC = Define.Storyboard_InitVC("AddressVC") as! AddressVC
+              navigationController?.pushViewController(addressVC, animated: true)
+           
+        case 5: //个人资料
+            
+            let fileVC = Define.Storyboard_InitVC("FileVC") as! FileVC
+            navigationController?.pushViewController(fileVC, animated: true)
+            
+        case 6: //资质认证
+            
+            let certificateVC = Define.Storyboard_InitVC("CertificateVC") as! CertificateVC
+            navigationController?.pushViewController(certificateVC, animated: true)
         default:
             print("---")
             
@@ -105,22 +142,20 @@ extension MeVC{
         
         NetTool.shareNetTool.getUserDetailWithType("21") { (dic) in
             
-            if Define.reqSuccess(dic!) == true{
+            if Define.reqSuccess(dic) == true{
                 
                 //无数据
-                if dic!["value"]?.count == 0{
+                if dic?["value"]?.count == 0{
                     return
                 }
                 
-                //取出数据转为字典
-                let obj = dic!["value"]?.firstObject as! [String : AnyObject]
+                guard let obj = dic?["value"]?.firstObject as? [String : AnyObject] else{
+                    return;
+                }
                 
-                let meMod : MeMod = MeMod ()
-                meMod.setValuesForKeysWithDictionary(obj)
-                
-                //设置数据
+                 //取出数据转为字典
+                let meMod : MeMod = MeMod(dic: obj)
                 self.setData(meMod)
- 
             }
         }
     }
@@ -129,13 +164,16 @@ extension MeVC{
     @objc private func setData(meMod:MeMod){
 
         //1.头像
-        let url = NSURL(string: K_Image_Url + meMod.PhoneLink)
-        
-        if url != nil {
-            let data = NSData(contentsOfURL:url!)
-            let image = UIImage(data: data!)
-            iconBtn.setImage(image, forState: UIControlState.Normal)
-        }
+//        let url = NSURL(string: K_Image_Url + meMod.PhoneLink)
+//        
+//        if url != nil {
+//            let data = NSData(contentsOfURL:url!)
+//            let image = UIImage(data: data!)
+//            iconBtn.setImage(image, forState: UIControlState.Normal)
+//        }
+//        let image = UIImage(data: K_Icon as! NSData)
+//        iconBtn.setImage(image, forState: UIControlState.Normal)
+
        
         //2.老师名,学生数，好评率，课程数
         teacherLab.text =  meMod.UserName
@@ -210,12 +248,6 @@ extension MeVC{
         }
 
     }
-}
-
-
-extension MeVC{
-    
-    
 }
 
 

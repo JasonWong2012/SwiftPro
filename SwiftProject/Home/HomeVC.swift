@@ -127,14 +127,16 @@ extension HomeVC{
         
     NetTool.shareNetTool.getNewsData("1", pageSize: "100") { (dic) in
         
-        if Define.reqSuccess(dic!) == true{
+        if Define.reqSuccess(dic) == true{
             
                 //无数据
                 if dic!["value"]?.count == 0{
                     return
                 }
             
-            let arr = dic!["value"] as! NSArray
+            guard let arr = dic!["value"] as? NSArray else{
+                return
+            }
             
             //取出数据转为字典
             for obj in arr {

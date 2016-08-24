@@ -25,7 +25,7 @@ let K_YellowColor  = Define.RGBColor(133, G:87, B:24, A:1)
 let K_Window = UIApplication.sharedApplication().keyWindow
 let K_Net_1  = "http://112.74.128.53:9600/APP_Action.ashx?" //接口前缀
 let K_Image_Url = "http://112.74.128.53:9997/"                //图片的前缀
-let K_Noti_Center = NSNotificationCenter.defaultCenter()
+let K_NotiCenter = NSNotificationCenter.defaultCenter()
 
 
 //用户数据
@@ -34,7 +34,7 @@ let K_Uid = (K_Udf.objectForKey("uid") == nil) ? "" : (K_Udf.objectForKey("uid")
 let K_Phone = (K_Udf.objectForKey("phone") == nil) ? "" : (K_Udf.objectForKey("phone") as! String)
 let K_Pwd = (K_Udf.objectForKey("pwd") == nil) ? "" : (K_Udf.objectForKey("pwd") as! String)
 let K_Icon = K_Udf.objectForKey("icon")
-
+ 
 
 
 
@@ -45,10 +45,11 @@ let K_I6 = UIScreen.mainScreen().bounds.size.height == 667
 let K_I7 = UIScreen.mainScreen().bounds.size.height == 736
 
 ///系统版本判断
-let K_IOS6 = ( Double(UIDevice.currentDevice().systemVersion) < 7.0)
-let K_IOS7 = (Double(UIDevice.currentDevice().systemVersion) >= 7.0)
-let K_IOS8 = (Double(UIDevice.currentDevice().systemVersion) >= 8.0)
-let K_IOS9 = (Double(UIDevice.currentDevice().systemVersion) >= 9.0)
+ let systemVersion =  NSString(string: UIDevice.currentDevice().systemVersion).doubleValue
+let K_IOS6 = (systemVersion < 7.0)
+let K_IOS7 = (systemVersion >= 7.0)
+let K_IOS8 = (systemVersion >= 8.0)
+let K_IOS9 = (systemVersion >= 9.0)
 
 
 /// 屏幕宽高
@@ -101,23 +102,41 @@ class Define:NSObject {
     }
     
     ///请求成功
-    class func reqSuccess(dic:[String: AnyObject]) ->Bool{
+    class func reqSuccess(dic:[String: AnyObject]?) ->Bool{
         
-        if  (dic["sign"] as! Int == 1 || dic["signIOS"] as! Int == 1){
-            return  true
-        }else{
+        guard let obj = dic else{
             return false
         }
+        
+       guard let sign = obj["sign"] as? Int else{
+        return false
+        }
+        
+        guard let signIOS = obj["signIOS"] as? Int else{
+            return false
+        }
+        
+        return  (sign == 1 || signIOS == 1) ? true : false
     }
     
     ///请求异常
-    class func reqAbnormal(dic:[String: AnyObject]) ->Bool{
+    class func reqAbnormal(dic:[String: AnyObject]?) ->Bool{
         
-        if  (dic["sign"] as! Int == 0 || dic["signIOS"] as! Int == 0){
-            return  true
-        }else{
+        guard let obj = dic else{
             return false
         }
+        
+        guard let sign = obj["sign"] as? Int else{
+            return false
+        }
+        
+        guard let signIOS = obj["signIOS"] as? Int else{
+            return false
+        }
+        
+        return  (sign == 2 || signIOS == 2) ? true : false
+
+        
     }
     
 }
